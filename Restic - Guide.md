@@ -179,9 +179,7 @@ ___
 Restic takes and stores backups (snapshots) of data into a backup location known as a repository.  Each repository is an encrypted space (directory) which securely stores the data for management and future retrieval.  The initial snapshot for a repository takes slightly longer to create and is larger in size than subsequent snapshots.  The initial snapshot is a full backup whereas subsequent backups contain only the objects that have changed (incremental).
 
 ### Initialize a Restic Repository
-Creating or initializing a repository (also known as a "repo") is the first step in performing backups.  We have to create a location where the backed up data will reside.  Optimally, a good backup location is on a separate physical medium and/or in the cloud.  
-
-In our example, we will simply create a repository in the home directory alongside the `files` and `notes` directories created earlier.  This repository will be named "repo" and will be initialized using `restic init -r repo`.  Where the `-r` parameter specifies that the text that will come immediately after it is the path to the repository.  Each repository requires a password for encryption purposes.
+Creating or initializing a repository (also known as a "repo") is the first step in performing backups.  We have to create a location where the backed up data will reside. In our example, we will simply create a repository in the home directory alongside the `files` and `notes` directories created earlier.  This repository will be named "repo" and will be initialized using `restic init -r repo`.  Where the `-r` parameter specifies that the text that will come immediately after it is the path to the repository.  Each repository requires a password for encryption purposes.
 
 ```
 deep@ubuntu-vm:~$ restic init -r repo
@@ -193,6 +191,12 @@ Please note that knowledge of your password is required to access
 the repository. Losing your password means that your data is
 irrecoverably lost.
 ```
+
+<br/>
+
+>***Note:** It is best practice to create a repository on a separate phsyical medium such as another disk drive, removable/external drive, NAS, server, or cloud location.*
+
+<br/>
 
 ### Analyze the Repository
 A repository is simply a directory which is initialized by Restic to store backed up data.  The repository appears as any other directory.  An existing directory can be used as a repository or Restic can be used to create the repository (as a new directory).  When Restic creates the repository as a new directory, by default, only the owner is given full permissions to the directory (700).  
@@ -447,7 +451,7 @@ repository 7bfcc5b4 opened successfully, password is correct
 restoring <Snapshot 9d5ddbeb of [/home/deep/files /home/deep/notes] at 2020-12-07 22:45:31.34307187 +0000 UTC by deep@ubuntu-vm> to restore
 ```
 
-Note that the keyword `latest` can also be used in-lieu of the snapshot ID if the restoration from the most recent snapshot is desired.
+The keyword `latest` can also be used in-lieu of the snapshot ID if the restoration from the most recent snapshot is desired.
 
 ```
 deep@ubuntu-vm:~$ mkdir restore
