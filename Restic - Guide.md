@@ -194,7 +194,7 @@ irrecoverably lost.
 
 <br/>
 
->***Note:** It is best practice to create a repository on a separate phsyical medium such as another disk drive, removable/external drive, NAS, server, or cloud location.*
+>***Note:** It is best practice to create a repository on a separate physical medium such as another disk drive, removable/external drive, NAS, server, or cloud location.*
 
 <br/>
 
