@@ -26,7 +26,7 @@ ___
 ## Setting the Stage
 This guide will detail the process of using Restic.  We will generate data for backing up, download and install Restic, create backups, compare backups, restore backups, and delete unneeded backups.  For the purposes of this example, I have created an Ubuntu Server 20.04 virtual machine.  
 
-### Generating Data for a Backup
+### Generate Data for a Backup
 In order to demonstrate Restic, we should create some subdirectories and files that are "important" and worthy of being backed up.
 
 First, let's navigate to the home directory and create the `files` and `notes` subdirectories.
@@ -55,7 +55,7 @@ notes:
 note1.txt  note2.txt  note3.txt
 ```
 
-### Installing Restic
+### Install Restic
 Restic can be installed using the `apt install` command.
 
 ```
@@ -600,6 +600,16 @@ saved new indexes as [9794a016]
 remove 1 old index files
 [0:00] 100.00%  1 / 1 packs deleted
 done
+```
+
+### Do It All with 1 Command
+The 2 part process of forgetting and pruning can be consolidated into 1 simple step by adding the `--prune` switch to the `forget` command.
+
+```
+deep@ubuntu-vm:~$ restic forget 93591a06 -r repo --prune
+enter password for repository:
+repository 7bfcc5b4 opened successfully, password is correct
+removed snapshot 93591a06
 ```
 
 ### Confirm the Forget and Prune
