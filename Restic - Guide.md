@@ -6,7 +6,7 @@ ___
 The backup solution space is crowded.  There are a multitude of applications, commands, and methodologies that are available.  Choosing the right one is a daunting task that can definitely leave your head spinning.  After having tried a few of the options out there, I have settled with Restic and here's why.  
 
 ### Open Source
-First and foremost, Restic is completely open source.  This is important especially when you are choosing a solution that will handle your very own data, which often times is personal and sensitive in nature.  That's the whole reason that it is being backed up in the first place...because you deem it as important.  So, when it comes to backups, it is a requirement that the solution be non-proprietary, open source, and auditable.  There should not be any concern of nefarious data harvesting or data siphoning to an overly interested third-party.  Your data should remain your data.   
+First and foremost, Restic is completely open source.  This is important especially when you are choosing a solution that will handle your very own data, which often times is personal and sensitive in nature.  That's the whole reason that it is being backed up in the first place...because you deem it as important.  So, when it comes to backups, it is a requirement that the solution be non-proprietary, open source, and auditable.  There should not be any concern of nefarious data harvesting or data siphoning to an overly interested third-party.  Your data should remain **your** data.   
 
 ### Deduplication
 Although storage space is inexpensive these days, it is always wise to use the available storage space sparingly and efficiently.  Restic does just that.  During the creation of a backup (known as a snapshot), Restic intelligently ensures that deduplication is occurring.  This prevents the backing up of entire copies of the same files or objects over and over again with each additional snapshot.  The end result, of course, is less space used for backups when compared to more traditional backup methods which use storage space quite greedily.
@@ -15,7 +15,7 @@ Although storage space is inexpensive these days, it is always wise to use the a
 Backups which are not encrypted simply aren't secure.  It is easy to create a backup and forget about it, especially if the backup was created on unencrypted removable storage or unencrypted cloud storage.  Anyone who gets a hold of this storage can now view the data fairly easily and do some very bad things with it.  This is why it is important to have encrypted backups.  Restic, by default, encrypts backups regardless of their destination.    
 
 ### Scale and Scope
-Some backup tools are limited in their functionality and compatibility.  They can only perform a backup a certain way or can only store the backup on certain locations.  They only run on certain operating systems.  Restic, on the other hand, is extremely flexible and diverse.  Restic is compatible with Linux, BSD, Mac, and Windows.  In addition to being able to create backups to local, SFTP, and REST servers, it is also capable of backing up to major cloud storage providers such as Backblaze B2, Wasabi, Openstack Swift, Amazon S3, Google Cloud, Microsoft Azure, etc.).
+Some backup tools are limited in their functionality and compatibility.  They can only perform a backup a certain way or can only store the backup on certain locations.  They only run on certain operating systems.  Restic, on the other hand, is extremely flexible and diverse.  Restic is compatible with Linux, BSD, Mac, and Windows.  In addition to being able to create backups to local, SFTP, and REST servers, it is also capable of backing up to major cloud storage providers such as Backblaze B2, Wasabi, Openstack Swift, Amazon S3, Google Cloud, Microsoft Azure, etc..
 
 ### Simplicity and Sophistication
 Restic provides you with a set of commands that can be used as building blocks for a variety of backup strategies, from simple to complex.  Each command is well documented and can be viewed using man pages or the `--help` parameter after the command.  The project website also contains excellent documentation and samples at https://restic.readthedocs.io/en/stable/.  This abundance of information promotes the creation of scripts (Perl, Python, BASH, etc.) and cron jobs that can further streamline and automate the process of creating routine backups.
@@ -252,7 +252,7 @@ Stats for all snapshots in restore-size mode:
         Total Size:   0 B
 ```
 
-To verify that the snapshot has been created, let's list all snapshots that exist in the repository.  The handy `restic snapshots` command is very useful in displaying the snapshots contained withina repository.  It will be used throughout this guide.  Note that the each snapshot has its own unique ID (which is required when working with snapshots).  
+To verify that the snapshot has been created, let's list all snapshots that exist in the repository.  The handy `restic snapshots` command is very useful in displaying the snapshots contained within a repository.  It will be used throughout this guide.  Note that the each snapshot has its own unique ID (which is required when working with snapshots).  
 
 ```
 deep@ubuntu-vm:~$ restic snapshots -r repo
@@ -290,7 +290,7 @@ Before we take the second snapshot, let's make some changes to the objects that 
 deep@ubuntu-vm:~$ rm notes/*
 ```
 
-Also, let's add another file named "file4.txt" to the files directory.  Unlike the other files, this file will actually contain some text.  Actually, it will contain a lot of text.  We can use the `curl` command to bring in the entire GPL v3 into this file.
+Also, let's add another file named "file4.txt" to the files directory.  Unlike the other files, this file will actually contain some text.  Actually, it will contain a LOT of text.  We can use the `curl` command to bring in the entire GPL v3 into this file.
 
 ```
 deep@ubuntu-vm:~$ curl https://www.gnu.org/licenses/gpl-3.0.txt > files/file4.txt
@@ -414,7 +414,7 @@ Tree Blobs:      2 new,     2 removed
 ```
 
 ### Compare Second Snapshot with First Snapshot
-If we use the `restic diff` command again, but reverse the order of the snapshot IDs, we get a different perspective on the difference betweent the 2 snapshots.  The output tells us the inverse of what we saw above.  When comparing the second snapshot to the first snapshot (reverse chronological order), we can see that 1 file is removed (35.501 KB) and 3 files are added (1.635 KB).
+If we use the `restic diff` command again, but reverse the order of the snapshot IDs, we get a different perspective on the difference between the 2 snapshots.  The output tells us the inverse of what we saw above.  When comparing the second snapshot to the first snapshot (reverse chronological order), we can see that 1 file is removed (35.501 KB) and 3 files are added (1.635 KB).
 
 ```
 deep@ubuntu-vm:~$ restic diff 9d5ddbeb 93591a06 -r repo
@@ -440,11 +440,14 @@ ___
 There are 2 general methods in which data can be restored from snapshots within a repository.  The first method is a restore of the data from a snapshot to a target directory.  The second method is what makes Restic simply amazing: mounting the respository to a mount-point and directly accessing the data from within the snapshot, itself!
 
 ### Restore from a Repository
-Let's create a new directory called `restore` which will serve as the target location for the restoration of the data.  The next step is to perform `restic restore` using the snapshot ID of the desired snapshot (ID = 9d5ddbeb) and pointing the output to the newly created directory using `--target restore`.   
+Let's create a new directory called `restore` which will serve as the target location for the restoration of the data.    
 
 ```
 deep@ubuntu-vm:~$ mkdir restore
+```
 
+The next step is to perform `restic restore` using the snapshot ID of the desired snapshot (ID = 9d5ddbeb) and pointing the output to the newly created directory using `--target restore`.
+```
 deep@ubuntu-vm:~$ restic restore 9d5ddbeb --target restore -r repo
 enter password for repository:
 repository 7bfcc5b4 opened successfully, password is correct
@@ -454,8 +457,6 @@ restoring <Snapshot 9d5ddbeb of [/home/deep/files /home/deep/notes] at 2020-12-0
 The keyword `latest` can also be used in-lieu of the snapshot ID if the restoration from the most recent snapshot is desired.
 
 ```
-deep@ubuntu-vm:~$ mkdir restore
-
 deep@ubuntu-vm:~$ restic restore latest --target restore -r repo
 enter password for repository:
 repository 7bfcc5b4 opened successfully, password is correct
@@ -480,12 +481,14 @@ total 0
 ```
 
 ### Mount a Repository
-Now let's get to one of my favorite features of Restic: mounting a repository.  In order to do so, we will first need a mount-point where we can mount the repository; the `/mnt/restic` mount-point can be created and used.  A repository can be mounted to this mount-point using the `restic-mount` command.  The `--allow-other` parameter will be used in this example since it ensures that others can access the repository.  Once this command is executed in the foreground, the prompt is left in a hanging state.  For the purposes of this example, verification of the mount will be performed using a second SSH session against the host machine: ubuntu-vm.
+Now let's get to one of my favorite features of Restic: mounting a repository.  In order to do so, we will first need a mount-point where we can mount the repository; the `/mnt/restic` mount-point can be created and used for this purpose.  
 
 ```
 deep@ubuntu-vm:~$ sudo mkdir /mnt/restic
-[sudo] password for deep:
+```
 
+A repository can be mounted to this mount-point using the `restic-mount` command.  The `--allow-other` parameter will be used in this example since it ensures that others can access the repository as well.  Once this command is executed in the foreground, the prompt is left in a hanging state.  For the purposes of this example, verification of the mount will be performed using a second SSH session against the host machine: ubuntu-vm.
+```
 deep@ubuntu-vm:~$ sudo restic mount --allow-other /mnt/restic -r repo
 enter password for repository:
 repository 7bfcc5b4 opened successfully, password is correct
@@ -493,7 +496,7 @@ Now serving the repository at /mnt/restic
 When finished, quit with Ctrl-c or umount the mountpoint.
 ```
 
-With a second SSH session, we can list the contents of the `/mnt/restic` directory. 
+From within a second SSH session, we can list the contents of the `/mnt/restic` directory. 
 
 ```
 deep@ubuntu-vm:~$ ls -l /mnt/restic
@@ -563,7 +566,7 @@ ID        Time                 Host        Tags        Paths
 ```
 
 ### Forget the Snapshot 
-Forgetting a snapshot only deletes the snapshot object from the repository, but does not delete the associated data.  This makes sense.  Think of it this way, when you forget about someone or something, it doesn't mean that that person or thing ceases to exist and is wiped off of the face of the planet.  The data which the snapshot used to reference still exists, but is no longer being referenced by a snapshot.  The `restic forget` command can be used to forget an existing snapshot.
+Forgetting a snapshot only deletes the snapshot object from the repository, but does not delete the associated data.  This makes sense.  Think of it this way: when you forget about someone or something, it doesn't mean that that person or thing ceases to exist and is wiped off of the face of the planet.  The data which the snapshot used to reference still exists, but is no longer being referenced by a snapshot.  The `restic forget` command can be used to forget an existing snapshot.
 
 ```
 deep@ubuntu-vm:~$ restic forget 93591a06 -r repo
